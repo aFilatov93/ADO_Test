@@ -78,13 +78,21 @@ namespace ADO_testing_1
         {
             this.path = path;
             var audioFile = TagLib.File.Create(path);
-
             album = audioFile.Tag.Album;
             artist = string.Join(", ", audioFile.Tag.Performers);
             title = audioFile.Tag.Title;
-            genre = audioFile.Tag.Genres[0];
+            try
+            {
+                genre = audioFile.Tag.Genres[0];
+            }
+            catch(IndexOutOfRangeException)
+            {
+                genre = "";
+            }
             year = audioFile.Tag.Year.ToString();
             duration = audioFile.Properties.Duration.ToString("hh\\:mm\\:ss");
+
+            audioFile.Dispose();
         }
 
         public void ShowTags()

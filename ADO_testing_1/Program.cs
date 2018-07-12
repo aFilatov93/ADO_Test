@@ -22,21 +22,32 @@ namespace ADO_testing_1
             //GetArtistsWithCountries();
             //GetCountries();
             //GetConnectionInfo();
-            //string directory = Console.ReadLine();
-            string directory = @"C:\Mus";
 
-            var testAu = new AudioFilesList(directory);
+            bool switcher = true;
 
-            AudioFile Au1 = testAu.Tracks[0];
-            
-            Console.WriteLine(Au1.Year);
+            while (switcher)
+            {
+                string directory = Console.ReadLine();
+
+                try
+                {
+                    AudioFilesList testAu = new AudioFilesList(directory);
+                    if (testAu.Tracks.Count > 0)
+                    {
+                        testAu.ShowTags();
+                        //switcher = false;
+                    }
+                    else Console.WriteLine("Folders doesn't contain .mp3 files");
+                }
+                catch (NullReferenceException ex)
+                {
+                    ex = new NullReferenceException();
+                    Console.WriteLine("Null Reference");
+                }
+            }
 
             Console.Read();
         }
-
-
-
-
 
 
 

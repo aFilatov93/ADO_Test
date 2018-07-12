@@ -23,8 +23,18 @@ namespace ADO_testing_1
 
         public AudioFilesList(string directory)
         {
-            dir     = directory;
-            subDirs = Directory.GetFiles(@"" + dir, "*.mp3", SearchOption.AllDirectories);
+            dir = directory;
+
+            try
+            {
+                subDirs = Directory.GetFiles(@"" + dir, "*.mp3", SearchOption.AllDirectories);
+            }
+            catch (ArgumentException ex)
+            {
+                ex = new ArgumentException("Incorrect path to directory","");
+                Console.WriteLine(ex.Message);
+                return;
+            }
             tracks  = subDirs.Select(file => new AudioFile(file)).ToList();
             tracksPaths = new string[tracks.Count];
         }
