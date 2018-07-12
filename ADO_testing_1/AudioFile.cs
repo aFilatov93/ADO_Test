@@ -19,6 +19,7 @@ namespace ADO_testing_1
         private string trackNumber;
         private string duration;
 
+        #region Params
         public string Path
         {
             get
@@ -82,6 +83,7 @@ namespace ADO_testing_1
                 return duration;
             }
         }
+        #endregion
 
         public AudioFile(string path)
         {
@@ -110,33 +112,6 @@ namespace ADO_testing_1
             Console.WriteLine("Альбом: {0}\nИсполнитель: {1}\nНазвание: {2}\nГод: {3}\nДлительность: {4}\nЖанр: {5}\nНомер: {6}",
                                 album, artist, title, year, duration, genre, trackNumber);
         }
-
-        /*public void ShowPath()
-        {
-            Console.WriteLine("Путь к файлу: {0}", Path);
-        }
-
-        public void TracksToList()
-        {
-            const string dir = @"C:\Mus";
-
-            // поиск всех .mp3 файлов, включая подпапки по пути в dir
-            var subDirs = Directory.GetFiles(@"" + dir, "*.mp3", SearchOption.AllDirectories);
-
-            // выбор всех .mp3 файлов
-            var tracks = subDirs.Select(file => new AudioFile(file)).ToList();
-
-            int count = 0;
-
-            foreach (var a in tracks)
-            {
-                count++;
-                a.ShowTags();
-                Console.WriteLine();
-            }
-            Console.WriteLine("Total: {0}", count);
-            Console.Read();
-        }*/
 
     }
 }

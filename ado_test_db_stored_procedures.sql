@@ -37,19 +37,19 @@ AS
 	END
 	
 CREATE PROCEDURE sp_InsertTrack
-	@album varchar,
-	@artist varchar,
-	@genre varchar,
-	@title varchar,
-	@year varchar,
-	@duration varchar,
+	@album varchar(max),
+	@artist varchar(max),
+	@title varchar(max),
+	@genre varchar(max),
+	@year varchar(max),
+	@duration varchar(max),
 	@trackNumber int
 AS
 	DECLARE @genre_id int;
 	DECLARE @artist_id int;
 	DECLARE @album_id int;
 	
-	IF EXISTS (SELECT * FROM genres WHERE Name LIKE @genre)
+	IF EXISTS (SELECT Id FROM genres WHERE Name LIKE @genre)
 		BEGIN
 			SET @genre_id = (SELECT Id FROM genres WHERE Name LIKE @genre);
 		END
@@ -58,7 +58,7 @@ AS
 			SET @genre_id = 144; --uknown
 		END
 
-	IF EXISTS (SELECT * FROM artists WHERE Name LIKE @artist)
+	IF EXISTS (SELECT Id FROM artists WHERE Name LIKE @artist)
 		BEGIN
 			SET @artist_id = (SELECT Id FROM artists WHERE Name LIKE @artist);
 		END
@@ -69,7 +69,7 @@ AS
 			SET @artist_id = (SELECT Id FROM artists WHERE Name LIKE @artist);
 		END
 
-	IF EXISTS (SELECT * FROM albums WHERE Name LIKE @album)
+	IF EXISTS (SELECT Id FROM albums WHERE Name LIKE @album)
 		BEGIN
 			SET @album_id = (SELECT Id FROM albums WHERE Name LIKE @album);
 		END

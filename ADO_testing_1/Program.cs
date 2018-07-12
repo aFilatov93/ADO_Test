@@ -22,14 +22,16 @@ namespace ADO_testing_1
             //GetArtistsWithCountries();
             //GetCountries();
             //GetConnectionInfo();
-            bool switcher = true;
-
             //DBManipulation.GetConnectionInfo();
+
+            //TEST();
+
+            bool switcher = true;
             
             while (switcher)
             {
                 //string directory = Console.ReadLine();
-                string directory = @"C:\Mus";
+                string directory = @"E:\Mus";
 
                 try
                 {
@@ -54,16 +56,22 @@ namespace ADO_testing_1
                     ex = new NullReferenceException();
                     Console.WriteLine("Null Reference");
                 }
-
-                
             }
 
-
-           
             Console.Read();
         }
 
-        private static void InsertTrack(string album, string artist, string title, string genre, string year, string duration, string trackNumber)
+        static public void TEST()
+        {
+            string directory = @"E:\Mus";
+            AudioFilesList testAu = new AudioFilesList(directory);
+            var Au1 = testAu.Tracks[0];
+            Console.WriteLine("{0} {1} {2} {3} {4} {5} {6}", 
+                Au1.Album, Au1.Artist, Au1.Title, Au1.Genre, Au1.Year, Au1.Duration, Au1.TrackNumber);
+        }
+
+        private static void InsertTrack
+            (string album, string artist, string title, string genre, string year, string duration, string trackNumber)
         {
             // название процедуры
             string sqlExpression = "sp_InsertTrack";
@@ -111,7 +119,7 @@ namespace ADO_testing_1
                 SqlParameter yearParam = new SqlParameter
                 {
                     ParameterName = "@year",
-                    Value = Convert.ToInt32( year )
+                    Value = year
                 };
                 command.Parameters.Add(yearParam);
 
@@ -123,7 +131,7 @@ namespace ADO_testing_1
                 };
                 command.Parameters.Add(durationParam);
 
-                // параметр для ввода duration
+                // параметр для ввода trackNumber
                 SqlParameter trackNumberParam = new SqlParameter
                 {
                     ParameterName = "@trackNumber",
@@ -137,19 +145,3 @@ namespace ADO_testing_1
 
     }
 }
-
-
-
-/*
-        path to 
-        album   to albums.Name
-        year    to albums.Year
-
-        artist  to artists.Name
-
-        genre   to genres.Name
-
-        title   to tracks Name
-        duration to tracks.Duration
-        
-*/
