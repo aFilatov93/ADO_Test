@@ -13,6 +13,8 @@ namespace ADO_testing_1
     {
         private static string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
+        #region Other Methods
+
         public static void GetConnectionInfo()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -36,7 +38,7 @@ namespace ADO_testing_1
         }
 
 
-        public static void InsertArtist()
+        public static void AddArtist()
         {
             Console.Write("Введите имя исполнителя:");
             string name = Console.ReadLine();
@@ -44,7 +46,7 @@ namespace ADO_testing_1
             Console.Write("Введите страну исполнителя на английском:");
             string country = Console.ReadLine();
 
-            if (AddArtist(name, country))
+            if (InsertArtist(name, country))
             {
                 Console.WriteLine("Исполнитель добавлен:");
                 GetArtistsWithCountries();
@@ -55,13 +57,16 @@ namespace ADO_testing_1
                 Console.WriteLine();
                 GetCountries();
                 Console.WriteLine();
-                InsertArtist();
+                AddArtist();
             }
             Console.Read();
         }
+        #endregion
+
+        #region Inserts
 
         // добавление исполнителя
-        private static bool AddArtist(string name, string country)
+        private static bool InsertArtist(string name, string country)
         {
             // название процедуры
             string sqlExpression = "sp_InsertArtist";
@@ -99,6 +104,9 @@ namespace ADO_testing_1
             }
         }
 
+        #endregion
+
+        #region Selects
 
         public static void GetArtistsWithCountries()
         {
@@ -155,5 +163,7 @@ namespace ADO_testing_1
                 reader.Close();
             }
         }
+
+        #endregion
     }
 }

@@ -16,6 +16,7 @@ namespace ADO_testing_1
         private string title;
         private string genre;
         private string year;
+        private string trackNumber;
         private string duration;
 
         public string Path
@@ -39,6 +40,14 @@ namespace ADO_testing_1
             get
             {
                 return artist;
+            }
+        }
+
+        public string TrackNumber
+        {
+            get
+            {
+                return trackNumber;
             }
         }
 
@@ -89,6 +98,7 @@ namespace ADO_testing_1
             {
                 genre = "";
             }
+            trackNumber = audioFile.Tag.Track.ToString();
             year = audioFile.Tag.Year.ToString();
             duration = audioFile.Properties.Duration.ToString("hh\\:mm\\:ss");
 
@@ -97,8 +107,8 @@ namespace ADO_testing_1
 
         public void ShowTags()
         {
-            Console.WriteLine("Альбом: {0}\nИсполнитель: {1}\nНазвание: {2}\nГод: {3}\nДлительность: {4}\nЖанр: {5}",
-                                album, artist, title, year, duration, genre);
+            Console.WriteLine("Альбом: {0}\nИсполнитель: {1}\nНазвание: {2}\nГод: {3}\nДлительность: {4}\nЖанр: {5}\nНомер: {6}",
+                                album, artist, title, year, duration, genre, trackNumber);
         }
 
         /*public void ShowPath()

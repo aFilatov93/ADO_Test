@@ -4,7 +4,7 @@ CREATE TABLE [dbo].[albums] (
     [Year]        INT           NULL,
     [Artist_Id]   INT           NULL,
     [Duration]    VARCHAR (1)   NULL,
-    [TracksCount] INT           NOT NULL,
+    [TracksCount] INT           NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     FOREIGN KEY ([Artist_Id]) REFERENCES [dbo].[artists] ([Id])
 );
@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[albums] (
 CREATE TABLE [dbo].[artists] (
     [Id]         INT           IDENTITY (1, 1) NOT NULL,
     [Name]       VARCHAR (MAX) NOT NULL,
-    [Country_Id] INT           NOT NULL,
+    [Country_Id] INT           NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     FOREIGN KEY ([Country_Id]) REFERENCES [dbo].[countries] ([Id])
 );

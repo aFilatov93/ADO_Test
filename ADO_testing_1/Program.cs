@@ -24,19 +24,28 @@ namespace ADO_testing_1
             //GetConnectionInfo();
             bool switcher = true;
 
-            DBManipulation.GetConnectionInfo();
-            /*
+            //DBManipulation.GetConnectionInfo();
+            
             while (switcher)
             {
-                string directory = Console.ReadLine();
+                //string directory = Console.ReadLine();
+                string directory = @"C:\Mus";
 
                 try
                 {
                     AudioFilesList testAu = new AudioFilesList(directory);
                     if (testAu.Tracks.Count > 0)
                     {
-                        testAu.ShowTags();
-                        //switcher = false;
+                        //testAu.ShowTags();
+                        Console.WriteLine("Success1..");
+
+                        var Au1 = testAu.Tracks[0];
+
+                        InsertTrack(Au1.Album, Au1.Artist, Au1.Title, Au1.Genre, Au1.Year, Au1.Duration, Au1.TrackNumber);
+
+                        Console.WriteLine("Success2..");
+
+                        switcher = false;
                     }
                     else Console.WriteLine("Folders doesn't contain .mp3 files");
                 }
@@ -45,10 +54,102 @@ namespace ADO_testing_1
                     ex = new NullReferenceException();
                     Console.WriteLine("Null Reference");
                 }
+
+                
             }
-            */
+
+
+           
             Console.Read();
+        }
+
+        private static void InsertTrack(string album, string artist, string title, string genre, string year, string duration, string trackNumber)
+        {
+            // название процедуры
+            string sqlExpression = "sp_InsertTrack";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = CommandType.StoredProcedure;
+
+                // параметр для ввода album
+                SqlParameter albumParam = new SqlParameter
+                {
+                    ParameterName = "@album",
+                    Value = album
+                };
+                command.Parameters.Add(albumParam);
+
+                // параметр для ввода artist
+                SqlParameter artistParam = new SqlParameter
+                {
+                    ParameterName = "@artist",
+                    Value = artist
+                };
+                command.Parameters.Add(artistParam);
+
+                // параметр для ввода title
+                SqlParameter titleParam = new SqlParameter
+                {
+                    ParameterName = "@title",
+                    Value = title
+                };
+                command.Parameters.Add(titleParam);
+
+                // параметр для ввода genre
+                SqlParameter genreParam = new SqlParameter
+                {
+                    ParameterName = "@genre",
+                    Value = genre
+                };
+                command.Parameters.Add(genreParam);
+
+                // параметр для ввода year
+                SqlParameter yearParam = new SqlParameter
+                {
+                    ParameterName = "@year",
+                    Value = Convert.ToInt32( year )
+                };
+                command.Parameters.Add(yearParam);
+
+                // параметр для ввода duration
+                SqlParameter durationParam = new SqlParameter
+                {
+                    ParameterName = "@duration",
+                    Value = duration
+                };
+                command.Parameters.Add(durationParam);
+
+                // параметр для ввода duration
+                SqlParameter trackNumberParam = new SqlParameter
+                {
+                    ParameterName = "@trackNumber",
+                    Value = Convert.ToInt32(trackNumber)
+                };
+                command.Parameters.Add(trackNumberParam);
+
+                command.ExecuteNonQuery();
+            }
         }
 
     }
 }
+
+
+
+/*
+        path to 
+        album   to albums.Name
+        year    to albums.Year
+
+        artist  to artists.Name
+
+        genre   to genres.Name
+
+        title   to tracks Name
+        duration to tracks.Duration
+        
+*/
