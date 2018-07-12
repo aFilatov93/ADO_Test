@@ -10,25 +10,80 @@ namespace ADO_testing_1
 {
     internal class AudioFile
     {
+        private string path;
         private string album;
         private string artist;
         private string title;
         private string genre;
-        private object year;
-        private object duration;
+        private string year;
+        private string duration;
 
-        public string Path { get; set; }
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
+        }
+
+        public string Album
+        {
+            get
+            {
+                return album;
+            }
+        }
+
+        public string Artist
+        {
+            get
+            {
+                return artist;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+        }
+
+        public string Genre
+        {
+            get
+            {
+                return genre;
+            }
+        }
+
+        public string Year
+        {
+            get
+            {
+                return year;
+            }
+        }
+
+        public string Duration
+        {
+            get
+            {
+                return duration;
+            }
+        }
 
         public AudioFile(string path)
         {
-            Path = path;
+            this.path = path;
             var audioFile = TagLib.File.Create(path);
 
             album = audioFile.Tag.Album;
             artist = string.Join(", ", audioFile.Tag.Performers);
             title = audioFile.Tag.Title;
             genre = audioFile.Tag.Genres[0];
-            year = audioFile.Tag.Year;
+            year = audioFile.Tag.Year.ToString();
             duration = audioFile.Properties.Duration.ToString("hh\\:mm\\:ss");
         }
 
@@ -38,7 +93,7 @@ namespace ADO_testing_1
                                 album, artist, title, year, duration, genre);
         }
 
-        public void ShowPath()
+        /*public void ShowPath()
         {
             Console.WriteLine("Путь к файлу: {0}", Path);
         }
@@ -63,7 +118,7 @@ namespace ADO_testing_1
             }
             Console.WriteLine("Total: {0}", count);
             Console.Read();
-        }
+        }*/
 
     }
 }

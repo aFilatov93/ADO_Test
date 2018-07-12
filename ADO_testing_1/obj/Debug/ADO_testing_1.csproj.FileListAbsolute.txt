@@ -10,3 +10,9 @@ c:\csharp\ADO_testing_1\ADO_testing_1\bin\Debug\policy.2.0.taglib-sharp.config
 C:\csharp\ado_test\ADO_Test\ADO_testing_1\bin\Debug\ADO_testing_1.exe.config
 C:\csharp\ado_test\ADO_Test\ADO_testing_1\obj\Debug\ADO_testing_1.exe
 C:\csharp\ado_test\ADO_Test\ADO_testing_1\obj\Debug\ADO_testing_1.pdb
+C:\csharp\ado_test\ADO_Test\ADO_testing_1\bin\Debug\ADO_testing_1.exe
+C:\csharp\ado_test\ADO_Test\ADO_testing_1\bin\Debug\ADO_testing_1.pdb
+C:\csharp\ado_test\ADO_Test\ADO_testing_1\bin\Debug\policy.2.0.taglib-sharp.dll
+C:\csharp\ado_test\ADO_Test\ADO_testing_1\bin\Debug\taglib-sharp.dll
+C:\csharp\ado_test\ADO_Test\ADO_testing_1\bin\Debug\policy.2.0.taglib-sharp.config
+C:\csharp\ado_test\ADO_Test\ADO_testing_1\obj\Debug\ADO_testing_1.csprojResolveAssemblyReference.cache

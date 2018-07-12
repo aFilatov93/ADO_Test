@@ -18,17 +18,31 @@ namespace ADO_testing_1
 
         static void Main(string[] args)
         {
-            InsertArtist();
+            //InsertArtist();
             //GetArtistsWithCountries();
             //GetCountries();
-            //GetConnectionInfo(connectionString);
+            //GetConnectionInfo();
+            //string directory = Console.ReadLine();
+            string directory = @"C:\Mus";
+
+            var testAu = new AudioFilesList(directory);
+
+            AudioFile Au1 = testAu.Tracks[0];
+            
+            Console.WriteLine(Au1.Year);
 
             Console.Read();
         }
 
-        public static void GetConnectionInfo(string connectionString)
+
+
+
+
+
+
+        public static void GetConnectionInfo()
         {
-            using (connection)
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 Console.WriteLine("Подключение открыто");
