@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[albums] (
     [Name]        VARCHAR (MAX) NOT NULL,
     [Year]        INT           NULL,
     [Artist_Id]   INT           NULL,
-    [Duration]    VARCHAR (1)   NULL,
+    [Duration]    VARCHAR (MAX)   NULL,
     [TracksCount] INT           NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     FOREIGN KEY ([Artist_Id]) REFERENCES [dbo].[artists] ([Id])
@@ -35,7 +35,7 @@ CREATE TABLE [dbo].[tracks] (
     [Album_Id]    INT           NULL,
     [Artist_Id]   INT           NULL,
     [Genre_Id]    INT           NULL,
-    [Duration]    VARCHAR (1)   NOT NULL,
+    [Duration]    VARCHAR (MAX)   NOT NULL,
     [TrackNumber] INT           NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     FOREIGN KEY ([Album_Id]) REFERENCES [dbo].[albums] ([Id]),

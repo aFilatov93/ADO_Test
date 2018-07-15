@@ -37,39 +37,14 @@ namespace ADO_testing_1
             Console.Read();
         }
 
-
-        public static void AddArtist()
-        {
-            Console.Write("Введите имя исполнителя:");
-            string name = Console.ReadLine();
-
-            Console.Write("Введите страну исполнителя на английском:");
-            string country = Console.ReadLine();
-
-            if (InsertArtist(name, country))
-            {
-                Console.WriteLine("Исполнитель добавлен:");
-                GetArtistsWithCountries();
-            }
-            else
-            {
-                Console.WriteLine("Ничего не добавлено. Выберите страну из списка:");
-                Console.WriteLine();
-                GetCountries();
-                Console.WriteLine();
-                AddArtist();
-            }
-            Console.Read();
-        }
         #endregion
 
         #region Inserts
 
-        // добавление исполнителя
-        private static bool InsertArtist(string name, string country)
+        public static void InsertTrack(AudioFile auFile)
         {
             // название процедуры
-            string sqlExpression = "sp_InsertArtist";
+            string sqlExpression = "sp_InsertTrack";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -77,36 +52,104 @@ namespace ADO_testing_1
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
                 // указываем, что команда представляет хранимую процедуру
                 command.CommandType = CommandType.StoredProcedure;
-                // параметр для ввода имени
-                SqlParameter nameParam = new SqlParameter
-                {
-                    ParameterName = "@Name",
-                    Value = name
-                };
-                // добавляем параметр
-                command.Parameters.Add(nameParam);
-                // параметр для ввода страны
-                SqlParameter countryParam = new SqlParameter
-                {
-                    ParameterName = "@Country",
-                    Value = country
-                };
-                command.Parameters.Add(countryParam);
 
-                if (command.ExecuteNonQuery() <= 0)
+                // параметр для ввода album
+                SqlParameter albumParam = new SqlParameter
                 {
-                    return false;
-                }
-                else
+                    ParameterName = "@album",
+                    Value = auFile.Album
+                };
+                command.Parameters.Add(albumParam);
+
+                // параметр для ввода artist
+                SqlParameter artistParam = new SqlParameter
                 {
-                    return true;
-                }
+                    ParameterName = "@artist",
+                    Value = auFile.Artist
+                };
+                command.Parameters.Add(artistParam);
+
+                // параметр для ввода title
+                SqlParameter titleParam = new SqlParameter
+                {
+                    ParameterName = "@title",
+                    Value = auFile.Title
+                };
+                command.Parameters.Add(titleParam);
+
+                // параметр для ввода genre
+                SqlParameter genreParam = new SqlParameter
+                {
+                    ParameterName = "@genre",
+                    Value = auFile.Genre
+                };
+                command.Parameters.Add(genreParam);
+
+                // параметр для ввода year
+                SqlParameter yearParam = new SqlParameter
+                {
+                    ParameterName = "@year",
+                    Value = auFile.Year
+                };
+                command.Parameters.Add(yearParam);
+
+                // параметр для ввода duration
+                SqlParameter durationParam = new SqlParameter
+                {
+                    ParameterName = "@duration",
+                    Value = auFile.Duration
+                };
+                command.Parameters.Add(durationParam);
+
+                // параметр для ввода trackNumber
+                SqlParameter trackNumberParam = new SqlParameter
+                {
+                    ParameterName = "@trackNumber",
+                    Value = Convert.ToInt32(auFile.TrackNumber)
+                };
+                command.Parameters.Add(trackNumberParam);
+
+                command.ExecuteNonQuery();
             }
         }
 
         #endregion
 
         #region Selects
+
+        public static void GetTrackInfo()
+        {
+            // название процедуры
+            string sqlExpression = "sp_TrackInfo";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = CommandType.StoredProcedure;
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", reader.GetName(0), reader.GetName(1), reader.GetName(2), reader.GetName(3), reader.GetName(4), reader.GetName(5), reader.GetName(6), reader.GetName(7));
+                    Console.WriteLine("-----------------------------------------");
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        int trackNum = reader.GetInt32(1);
+                        string trackName = reader.GetString(2);
+                        string artist = reader.GetString(3);
+                        string album = reader.GetString(4);
+                        int year = reader.GetInt32(5);
+                        string genre = reader.GetString(6);
+                        string duration = reader.GetString(7);
+                        Console.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", id, trackNum, trackName, artist, album, year, genre, duration);
+                    }
+                }
+                reader.Close();
+            }
+        }
 
         public static void GetArtistsWithCountries()
         {
