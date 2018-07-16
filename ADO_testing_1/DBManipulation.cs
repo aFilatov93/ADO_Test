@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace ADO_testing_1
 {
+
+    /// <summary>
+    /// Класс, проводящий манипуляции с БД приложения (ado_test)
+    /// </summary>
     static class DBManipulation
     {
+        // строка подключения, подключение указано в App.config
         private static string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        #region Other Methods
-
+        /// <summary>
+        /// Выводит в консоль информацию о подключении
+        /// </summary>
         public static void GetConnectionInfo()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -37,10 +43,12 @@ namespace ADO_testing_1
             Console.Read();
         }
 
-        #endregion
-
         #region Inserts
 
+        /// <summary>
+        /// Вносит в базу информацию из AudioFile
+        /// </summary>
+        /// <param name="auFile"></param>
         public static void InsertTrack(AudioFile auFile)
         {
             // название процедуры
@@ -57,7 +65,7 @@ namespace ADO_testing_1
                 SqlParameter albumParam = new SqlParameter
                 {
                     ParameterName = "@album",
-                    Value = auFile.Album
+                    Value = auFile.album
                 };
                 command.Parameters.Add(albumParam);
 
@@ -65,7 +73,7 @@ namespace ADO_testing_1
                 SqlParameter artistParam = new SqlParameter
                 {
                     ParameterName = "@artist",
-                    Value = auFile.Artist
+                    Value = auFile.artist
                 };
                 command.Parameters.Add(artistParam);
 
@@ -73,7 +81,7 @@ namespace ADO_testing_1
                 SqlParameter titleParam = new SqlParameter
                 {
                     ParameterName = "@title",
-                    Value = auFile.Title
+                    Value = auFile.title
                 };
                 command.Parameters.Add(titleParam);
 
@@ -81,7 +89,7 @@ namespace ADO_testing_1
                 SqlParameter genreParam = new SqlParameter
                 {
                     ParameterName = "@genre",
-                    Value = auFile.Genre
+                    Value = auFile.genre
                 };
                 command.Parameters.Add(genreParam);
 
@@ -89,26 +97,48 @@ namespace ADO_testing_1
                 SqlParameter yearParam = new SqlParameter
                 {
                     ParameterName = "@year",
-                    Value = auFile.Year
+                    Value = auFile.year
                 };
                 command.Parameters.Add(yearParam);
-
-                // параметр для ввода duration
-                SqlParameter durationParam = new SqlParameter
-                {
-                    ParameterName = "@duration",
-                    Value = auFile.Duration
-                };
-                command.Parameters.Add(durationParam);
 
                 // параметр для ввода trackNumber
                 SqlParameter trackNumberParam = new SqlParameter
                 {
                     ParameterName = "@trackNumber",
-                    Value = Convert.ToInt32(auFile.TrackNumber)
+                    Value = Convert.ToInt32(auFile.trackNumber)
                 };
                 command.Parameters.Add(trackNumberParam);
 
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void AlbumsTrackCountSP()
+        {
+            // название процедуры
+            string sqlExpression = "sp_AlbumsTrackCount";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = CommandType.StoredProcedure;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void ArtistsAlbumsCountSP()
+        {
+            // название процедуры
+            string sqlExpression = "sp_ArtistsAlbumsCount";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = CommandType.StoredProcedure;
                 command.ExecuteNonQuery();
             }
         }
@@ -117,6 +147,10 @@ namespace ADO_testing_1
 
         #region Selects
 
+        /// <summary>
+        /// Выводит в консоль информацию о треке из БД
+        /// == Не доработан ==
+        /// </summary>
         public static void GetTrackInfo()
         {
             // название процедуры
@@ -151,6 +185,10 @@ namespace ADO_testing_1
             }
         }
 
+        /// <summary>
+        /// Выводит в консоль имя исполнителя и его страну
+        /// == пока что бесполезный, исполнителям не присвоены страны ==
+        /// </summary>
         public static void GetArtistsWithCountries()
         {
             // название процедуры
@@ -179,34 +217,6 @@ namespace ADO_testing_1
                 reader.Close();
             }
         }
-
-        public static void GetCountries()
-        {
-            // название процедуры
-            string sqlExpression = "sp_GetCountries";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                // указываем, что команда представляет хранимую процедуру
-                command.CommandType = CommandType.StoredProcedure;
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    Console.WriteLine("{0}", reader.GetName(1));
-                    Console.WriteLine("-----------------------------------------");
-                    while (reader.Read())
-                    {
-                        string country = reader.GetString(1);
-                        Console.WriteLine("{0}", country);
-                    }
-                }
-                reader.Close();
-            }
-        }
-
         #endregion
     }
 }

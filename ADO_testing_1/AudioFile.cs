@@ -8,90 +8,48 @@ using TagLib;
 
 namespace ADO_testing_1
 {
-    internal class AudioFile
+    /// <summary>
+    /// Класс, описывающий аудио (мп3 в данном случае) файл,
+    /// конструктор принимает путь к файлу, считывает из него id3 тэги и присвавает их полям объекта,
+    /// метод ShowTags() выводит значения полей объекта в консоль 
+    /// </summary>
+    class AudioFile
     {
-        private string path;
-        private string album;
-        private string artist;
-        private string title;
-        private string genre;
-        private string year;
-        private string trackNumber;
-        private string duration;
+        // путь к файлу
+        public string path          { get; private set; }
+        // альбом
+        public string album         { get; private set; }
+        // исполнитель
+        public string artist        { get; private set; }
+        // название трека
+        public string title         { get; private set; }
+        // жанр
+        public string genre         { get; private set; }
+        // год альбома
+        public string year          { get; private set; }
+        // порядковый номер в альбоме
+        public string trackNumber   { get; private set; }
 
-        #region Params
-        public string Path
-        {
-            get
-            {
-                return path;
-            }
-        }
 
-        public string Album
-        {
-            get
-            {
-                return album;
-            }
-        }
-
-        public string Artist
-        {
-            get
-            {
-                return artist;
-            }
-        }
-
-        public string TrackNumber
-        {
-            get
-            {
-                return trackNumber;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-        }
-
-        public string Genre
-        {
-            get
-            {
-                return genre;
-            }
-        }
-
-        public string Year
-        {
-            get
-            {
-                return year;
-            }
-        }
-
-        public string Duration
-        {
-            get
-            {
-                return duration;
-            }
-        }
-        #endregion
-
+        /// <summary>
+        /// заполняет поля класса тегами из объекта audioFile, который тянет теги из мп3 файла,
+        /// параметр принимает путь к файлу, который присваивается объекту audioFile
+        /// </summary>
+        /// <param name="path"></param>
         public AudioFile(string path)
         {
+            // путь
             this.path = path;
+            // присвоение пути
             var audioFile = TagLib.File.Create(path);
+            // альбом
             album = audioFile.Tag.Album;
+            // исполнитель
             artist = string.Join(", ", audioFile.Tag.Performers);
+            // название трека
             title = audioFile.Tag.Title;
+            // поле Genres из audioFile является массивом, в случае если он пуст,
+            // отлавливается ошибка IndexOutOfRangeException, и жанру присваивается пустая строка
             try
             {
                 genre = audioFile.Tag.Genres[0];
@@ -100,17 +58,21 @@ namespace ADO_testing_1
             {
                 genre = "";
             }
+            // порядковый номер трека в альбоме
             trackNumber = audioFile.Tag.Track.ToString();
+            // год альбома
             year = audioFile.Tag.Year.ToString();
-            duration = audioFile.Properties.Duration.ToString("hh\\:mm\\:ss");
-
+            // уничтожается за ненадобностью объект audioFile
             audioFile.Dispose();
         }
 
+        /// <summary>
+        /// Выводит значения полей объекта в консоль
+        /// </summary>
         public void ShowTags()
         {
             Console.WriteLine("Альбом: {0}\nИсполнитель: {1}\nНазвание: {2}\nГод: {3}\nДлительность: {4}\nЖанр: {5}\nНомер: {6}",
-                                album, artist, title, year, duration, genre, trackNumber);
+                                album, artist, title, year, genre, trackNumber);
         }
 
     }
