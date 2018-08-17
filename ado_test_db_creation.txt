@@ -63,13 +63,11 @@ CREATE TABLE [dbo].[tracks] (
     [Id]          INT           IDENTITY (1, 1) NOT NULL,
     [Name]        VARCHAR (MAX) NOT NULL,
     [Album_Id]    INT           NULL,
-    [Artist_Id]   INT           NULL,
     [Genre_Id]    INT           NULL,
     [TrackNumber] INT           NULL,
     [currenttime] DATETIME      NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     FOREIGN KEY ([Album_Id]) REFERENCES [dbo].[albums] ([Id]),
-    FOREIGN KEY ([Artist_Id]) REFERENCES [dbo].[artists] ([Id]),
     FOREIGN KEY ([Genre_Id]) REFERENCES [dbo].[genres] ([Id])
 );
 
@@ -141,8 +139,8 @@ AS
 			SET @album_id = (SELECT Id FROM albums WHERE Name LIKE @album);
 		END
 
-	INSERT INTO tracks (Name, Album_Id, Artist_Id, Genre_Id, TrackNumber)
-	VALUES (@title, @album_id, @artist_id, @genre_id, @trackNumber);
+	INSERT INTO tracks (Name, Album_Id, Genre_Id, TrackNumber)
+	VALUES (@title, @album_id, @genre_id, @trackNumber);
 	
 -- очищает таблицы со сбросом инкремента
 CREATE PROCEDURE sp_ClearTablesWithIncrement
